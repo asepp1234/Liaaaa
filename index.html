@@ -2,8 +2,12 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Happy Birthday Sayang ❤</title>
+
+  <!-- Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
   <style>
     body {
       margin: 0;
@@ -15,52 +19,124 @@
       align-items: center;
       text-align: center;
       color: #fff;
+      overflow: hidden;
     }
     .card {
-      background: rgba(0, 0, 0, 0.25);
+      background: rgba(0,0,0,0.25);
       padding: 30px;
       border-radius: 20px;
       max-width: 500px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      z-index: 2;
     }
     h1 {
       font-size: 2.2em;
       margin-bottom: 15px;
     }
-    p {
+    #text {
       font-size: 1.1em;
       line-height: 1.6;
+      min-height: 220px;
+      white-space: pre-line;
+    }
+    button {
+      margin-top: 20px;
+      padding: 12px 22px;
+      font-size: 1em;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      background: #ff4d6d;
+      color: white;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+    button:hover {
+      background: #ff2f5c;
     }
     .heart {
       font-size: 2.5em;
-      animation: beat 1s infinite;
       margin-top: 15px;
+      animation: beat 1s infinite;
     }
     @keyframes beat {
-      0%, 100% { transform: scale(1); }
+      0%,100% { transform: scale(1); }
       50% { transform: scale(1.2); }
     }
   </style>
 </head>
 <body>
+
   <div class="card">
     <h1>Happy Birthday Sayanggg ❤</h1>
-    <p>
-      happy birthdayyyyyy sayangggkuuuu,<br><br>
-      ngomong apaa yaaa sehattt2 yaaaa sayangggg,
-      semogaa tahunn inii lebihh baikk darii tahunn kemarinnn 💕<br><br>
 
-      akuu sayanggg kamuuu alwayss lovee youu 🤍<br>
-      ku doa in kamu beli mie gadaaa bumbu hehee 😂<br><br>
+    <div id="text"></div>
 
-      gadaa lagii yang bisaa aku sampein,
-      akuu gabisaa buat kata2 panjang lebar yahhh<br>
-      intinyaa selamatt ulangg tahunnn sayanggggggkuu
-      cintaakuuu 💖<br><br>
-
-      dadahhhhh 😆
-    </p>
+    <button onclick="startSurprise()">Klik ini sayang 💕</button>
     <div class="heart">❤</div>
   </div>
+
+  <!-- Musik (DIGANTI) -->
+  <audio id="music" loop>
+    <source src="https://www.bensound.com/bensound-music/bensound-sweet.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const message = `happy birthdayyyyyy sayangggkuuuu 💕
+ngomong apaa yaaa sehattt2 yaaaa sayangggg
+semogaa tahunn inii lebihh baikk darii tahunn kemarinnn
+
+akuu sayanggg kamuuu alwayss lovee youu 🤍
+ku doa in kamu beli mie gadaaa bumbu hehee 😂
+
+gadaa lagii yang bisaa aku sampein
+akuu gabisaa buat kata2 panjang lebar yahhh
+intinyaa selamatt ulangg tahunnn
+sayanggggggkuu cintaakuuu 💖
+
+dadahhhhh 😆`;
+
+    let index = 0;
+
+    function typeText() {
+      if (index < message.length) {
+        document.getElementById("text").innerHTML += message.charAt(index);
+        index++;
+        setTimeout(typeText, 45);
+      }
+    }
+
+    function startSurprise() {
+      // play music
+      document.getElementById("music").play();
+
+      // typing effect
+      document.getElementById("text").innerHTML = "";
+      index = 0;
+      typeText();
+
+      // confetti
+      var duration = 5000;
+      var end = Date.now() + duration;
+
+      (function frame() {
+        confetti({
+          particleCount: 6,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0 }
+        });
+        confetti({
+          particleCount: 6,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1 }
+        });
+        if (Date.now() < end) {
+          requestAnimationFrame(frame);
+        }
+      })();
+    }
+  </script>
+
 </body>
 </html>
